@@ -1,0 +1,18 @@
+{
+    "scripts": {
+        "test": "hardhat test",
+        "format": "prettier --write contracts/**/*.sol *.js *.json test/**/*.js",
+        "pretty-quick": "pretty-quick",
+        "coverage": "hardhat coverage"
+    },
+    "devDependencies": {
+        "@luckyfinance/hardhat-framework": "luckyfinance/hardhat-framework#44c25f9f9d861e812399a2d5773449b368f31619"
+    },
+    "dependencies": {
+        "@boringcrypto/boring-solidity": "boringcrypto/BoringSolidity#371a01c11465eb1c881193c60a53c0bf15ee8a19",
+        "@keydonix/uniswap-oracle-contracts": "^1.0.6",
+        "@luckyfinance/alpine-sdk": "luckyfinance/alpine-sdk#e3f809870b86afbd57e0930662221d2362a160db",
+        "@luckyfinance/core": "^1.4.2",
+        "hardhat-deploy-ethers": "^0.3.0-beta.7"
+    }
+}
