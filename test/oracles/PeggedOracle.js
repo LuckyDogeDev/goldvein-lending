@@ -1,5 +1,5 @@
 const { expect } = require("chai")
-const { getBigNumber, createFixture } = require("@luckyfinance/hardhat-framework")
+const { getBigNumber, createFixture } = require("@sushiswap/hardhat-framework")
 
 describe("PeggedOracle", function () {
     before(async function () {

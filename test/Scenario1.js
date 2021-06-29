@@ -13,7 +13,7 @@ const {
     setGoldVeinPairContractApproval,
     createFixture,
     GoldVeinPair,
-} = require("@luckyfinance/hardhat-framework")
+} = require("@sushiswap/hardhat-framework")
 
 let cmd, fixture
 

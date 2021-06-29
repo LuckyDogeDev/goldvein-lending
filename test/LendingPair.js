@@ -13,7 +13,7 @@ const {
     ADDRESS_ZERO,
     GoldVeinPair,
     advanceTimeAndBlock,
-} = require("@luckyfinance/hardhat-framework")
+} = require("@sushiswap/hardhat-framework")
 const { defaultAbiCoder } = require("ethers/lib/utils")
 
 let cmd, fixture
@@ -581,7 +581,7 @@ describe("GoldVeinPair Basic", function () {
 
     describe("Cook", function () {
         it("can add 2 values to a call and receive 1 value back", async function () {
-            const ACTION_ALP_DEPOSIT = 20
+            const ACTION_BENTO_DEPOSIT = 20
             const ACTION_CALL = 30
 
             await cmd.deploy("externalFunctionMock", "ExternalFunctionMock")
@@ -592,7 +592,7 @@ describe("GoldVeinPair Basic", function () {
 
             await expect(
                 this.pairHelper.contract.cook(
-                    [ACTION_ALP_DEPOSIT, ACTION_CALL, ACTION_ALP_DEPOSIT],
+                    [ACTION_BENTO_DEPOSIT, ACTION_CALL, ACTION_BENTO_DEPOSIT],
                     [0, 0, 0],
                     [
                         defaultAbiCoder.encode(
@@ -650,9 +650,9 @@ describe("GoldVeinPair Basic", function () {
                 cmd.approveAsset(getBigNumber(100, 8)),
                 cmd.do(this.alPine.deposit, this.b.address, this.alice.address, this.alice.address, getBigNumber(70, 8), 0),
             ])
-            const ACTION_ALP_TRANSFER_MULTIPLE = 23
+            const ACTION_BENTO_TRANSFER_MULTIPLE = 23
             await this.pairHelper.contract.cook(
-                [ACTION_ALP_TRANSFER_MULTIPLE],
+                [ACTION_BENTO_TRANSFER_MULTIPLE],
                 [0],
                 [defaultAbiCoder.encode(["address", "address[]", "uint256[]"], [this.b.address, [this.carol.address], [getBigNumber(10, 8)]])]
             )

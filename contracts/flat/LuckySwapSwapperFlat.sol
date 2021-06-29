@@ -22,13 +22,13 @@ library BoringMath {
     }
 }
 
-// File @luckyfinance/core/contracts/uniswapv2/interfaces/IUniswapV2Factory.sol@v1.4.2
+// File @sushiswap/core/contracts/uniswapv2/interfaces/IUniswapV2Factory.sol@v1.4.2
 // License-Identifier: GPL-3.0
 interface IUniswapV2Factory {
     function getPair(address tokenA, address tokenB) external view returns (address pair);
 }
 
-// File @luckyfinance/core/contracts/uniswapv2/interfaces/IUniswapV2Pair.sol@v1.4.2
+// File @sushiswap/core/contracts/uniswapv2/interfaces/IUniswapV2Pair.sol@v1.4.2
 // License-Identifier: GPL-3.0
 interface IUniswapV2Pair {
     function token0() external view returns (address);

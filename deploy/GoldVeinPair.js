@@ -1,4 +1,4 @@
-const { weth, getBigNumber } = require("@luckyfinance/hardhat-framework")
+const { weth, getBigNumber } = require("@sushiswap/hardhat-framework")
 
 module.exports = async function (hre) {
     const factory_abi = [
@@ -77,13 +77,13 @@ module.exports = async function (hre) {
         gasPrice: finalGasPrice,
     })
 
-    const alpine = (await hre.ethers.getContractFactory("AlpineV1")).attach((await deployments.get("AlpineV1")).address)
+    const bentobox = (await hre.ethers.getContractFactory("AlpineV1")).attach((await deployments.get("AlpineV1")).address)
     */
-    const alpine = (await hre.ethers.getContractFactory("AlpineV1")).attach("0xF5BCE5077908a1b7370B9ae04AdC565EBd643966")
-    console.log("Deploying GoldVeinPair contract, using Alpine", alpine.address)
+    const bentobox = (await hre.ethers.getContractFactory("AlpineV1")).attach("0xF5BCE5077908a1b7370B9ae04AdC565EBd643966")
+    console.log("Deploying GoldVeinPair contract, using Alpine", bentobox.address)
     tx = await hre.deployments.deploy("GoldVeinPairMediumRiskV1", {
         from: deployer.address,
-        args: [alpine.address],
+        args: [bentobox.address],
         log: true,
         deterministicDeployment: false,
         gasLimit: 5500000,
@@ -93,7 +93,7 @@ module.exports = async function (hre) {
     console.log("Deploying Swapper contract")
     tx = await hre.deployments.deploy("LuckySwapSwapperV1", {
         from: deployer.address,
-        args: [alpine.address, factory, initCodeHash],
+        args: [bentobox.address, factory, initCodeHash],
         log: true,
         deterministicDeployment: false,
         gasLimit: 1300000,
@@ -144,9 +144,9 @@ module.exports = async function (hre) {
     tx = await hre.deployments.deploy("BoringHelperV1", {
         from: deployer.address,
         args: [
-            chainId == 1 ? "0xddB4E76521cA2DA81686Eb84106F15286BBe2Cdb" : "0x80C7DD17B01855a6D2347444a0FCC36136a314de",
-            chainId == 1 ? "0x59f84BbeE8b8cbE2aC45F1B7711f4034B2Ae0408" : "0x1b9d177CcdeA3c79B6c8F40761fc8Dc9d0500EAa",
-            chainId == 1 ? "0xc6D69475f115F61B1e8C4e78c20C49201c869DB4" : "0x0769fd68dFb93167989C6f7254cd0D766Fb2841F",
+            chainId == 1 ? "0xc2EdaD668740f1aA35E4D8f227fB8E17dcA888Cd" : "0x80C7DD17B01855a6D2347444a0FCC36136a314de",
+            chainId == 1 ? "0xE11fc0B43ab98Eb91e9836129d1ee7c3Bc95df50" : "0x1b9d177CcdeA3c79B6c8F40761fc8Dc9d0500EAa",
+            chainId == 1 ? "0x6B3595068778DD592e39A122f4f5a5cF09C90fE2" : "0x0769fd68dFb93167989C6f7254cd0D766Fb2841F",
             weth(chainId),
             chainId == 1
                 ? "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599"
@@ -164,7 +164,7 @@ module.exports = async function (hre) {
                 ? "0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f"
                 : "0x0000000000000000000000000000000000000000",
             chainId == 1 ? "0x8798249c2E607446EfB7Ad49eC89dD1865Ff4272" : "0x1be211D8DA40BC0ae8719c6663307Bfc987b1d6c",
-            alpine.address,
+            bentobox.address,
         ],
         log: true,
         deterministicDeployment: false,
@@ -193,14 +193,14 @@ module.exports = async function (hre) {
     await tx.wait()
     /*
     console.log("Whitelisting GoldVeinPair")
-    tx = await alpine.whitelistMasterContract(goldveinpair.address, true, {
+    tx = await bentobox.whitelistMasterContract(goldveinpair.address, true, {
         gasLimit: 100000,
         gasPrice: finalGasPrice,
     })
     await tx.wait()
 
     console.log("Update Alpine Owner")
-    await alpine.transferOwnership(goldnuggetOwner, true, false, {
+    await bentobox.transferOwnership(goldnuggetOwner, true, false, {
         gasLimit: 100000,
         gasPrice: finalGasPrice,
     })*/

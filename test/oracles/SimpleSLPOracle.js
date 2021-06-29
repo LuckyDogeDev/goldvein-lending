@@ -1,6 +1,6 @@
 const { ethers } = require("hardhat")
 const { expect } = require("chai")
-const { getBigNumber, roundBN, encodePrice, advanceTime, advanceTimeAndBlock, createFixture } = require("@luckyfinance/hardhat-framework")
+const { getBigNumber, roundBN, encodePrice, advanceTime, advanceTimeAndBlock, createFixture } = require("@sushiswap/hardhat-framework")
 
 describe("SimpleSLPOracle", function () {
     before(async function () {

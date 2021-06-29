@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.6.12;
 import "@boringcrypto/boring-solidity/contracts/libraries/BoringMath.sol";
-import "@luckyfinance/core/contracts/uniswapv2/interfaces/IUniswapV2Factory.sol";
-import "@luckyfinance/core/contracts/uniswapv2/interfaces/IUniswapV2Pair.sol";
+import "@sushiswap/core/contracts/uniswapv2/interfaces/IUniswapV2Factory.sol";
+import "@sushiswap/core/contracts/uniswapv2/interfaces/IUniswapV2Pair.sol";
 import "../interfaces/ISwapper.sol";
 import "@luckyfinance/alpine-sdk/contracts/IAlpineV1.sol";
 

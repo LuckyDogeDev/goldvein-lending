@@ -1,12 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
 
 // GoldVein Lending Medium Risk
-
-//  __  __             __    __      _____                  __ __
-// |  |/  .---.-.-----|  |--|__|    |     |_.-----.-----.--|  |__.-----.-----.
-// |     <|  _  |__ --|     |  |    |       |  -__|     |  _  |  |     |  _  |
-// |__|\__|___._|_____|__|__|__|    |_______|_____|__|__|_____|__|__|__|___  |
-//                                                                     |_____|
+                                                                    |_____|
 
 // Copyright (c) 2021 BoringCrypto - All rights reserved
 // Twitter: @Boring_Crypto
@@ -440,11 +435,11 @@ contract GoldVeinPair is ERC20, BoringOwnable, IMasterContract {
     uint8 internal constant ACTION_UPDATE_EXCHANGE_RATE = 11;
 
     // Function on Alpine
-    uint8 internal constant ACTION_ALP_DEPOSIT = 20;
-    uint8 internal constant ACTION_ALP_WITHDRAW = 21;
-    uint8 internal constant ACTION_ALP_TRANSFER = 22;
-    uint8 internal constant ACTION_ALP_TRANSFER_MULTIPLE = 23;
-    uint8 internal constant ACTION_ALP_SETAPPROVAL = 24;
+    uint8 internal constant ACTION_BENTO_DEPOSIT = 20;
+    uint8 internal constant ACTION_BENTO_WITHDRAW = 21;
+    uint8 internal constant ACTION_BENTO_TRANSFER = 22;
+    uint8 internal constant ACTION_BENTO_TRANSFER_MULTIPLE = 23;
+    uint8 internal constant ACTION_BENTO_SETAPPROVAL = 24;
 
     // Any external call (except to Alpine)
     uint8 internal constant ACTION_CALL = 30;
@@ -462,7 +457,7 @@ contract GoldVeinPair is ERC20, BoringOwnable, IMasterContract {
     }
 
     /// @dev Helper function for depositing into `alPine`.
-    function _alpDeposit(
+    function _bentoDeposit(
         bytes memory data,
         uint256 value,
         uint256 value1,
@@ -475,7 +470,7 @@ contract GoldVeinPair is ERC20, BoringOwnable, IMasterContract {
     }
 
     /// @dev Helper function to withdraw from the `alPine`.
-    function _alpWithdraw(
+    function _bentoWithdraw(
         bytes memory data,
         uint256 value1,
         uint256 value2
@@ -519,7 +514,7 @@ contract GoldVeinPair is ERC20, BoringOwnable, IMasterContract {
     /// @notice Executes a set of actions and allows composability (contract calls) to other contracts.
     /// @param actions An array with a sequence of actions to execute (see ACTION_ declarations).
     /// @param values A one-to-one mapped array to `actions`. ETH amounts to send along with the actions.
-    /// Only applicable to `ACTION_CALL`, `ACTION_ALP_DEPOSIT`.
+    /// Only applicable to `ACTION_CALL`, `ACTION_BENTO_DEPOSIT`.
     /// @param datas A one-to-one mapped array to `actions`. Contains abi encoded data of function arguments.
     /// @return value1 May contain the first positioned return value of the last executed action (if applicable).
     /// @return value2 May contain the second positioned return value of the last executed action which returns 2 values (if applicable).
@@ -559,18 +554,18 @@ contract GoldVeinPair is ERC20, BoringOwnable, IMasterContract {
                 (bool must_update, uint256 minRate, uint256 maxRate) = abi.decode(datas[i], (bool, uint256, uint256));
                 (bool updated, uint256 rate) = updateExchangeRate();
                 require((!must_update || updated) && rate > minRate && (maxRate == 0 || rate > maxRate), "GoldVeinPair: rate not ok");
-            } else if (action == ACTION_ALP_SETAPPROVAL) {
+            } else if (action == ACTION_BENTO_SETAPPROVAL) {
                 (address user, address _masterContract, bool approved, uint8 v, bytes32 r, bytes32 s) =
                     abi.decode(datas[i], (address, address, bool, uint8, bytes32, bytes32));
                 alPine.setMasterContractApproval(user, _masterContract, approved, v, r, s);
-            } else if (action == ACTION_ALP_DEPOSIT) {
-                (value1, value2) = _alpDeposit(datas[i], values[i], value1, value2);
-            } else if (action == ACTION_ALP_WITHDRAW) {
-                (value1, value2) = _alpWithdraw(datas[i], value1, value2);
-            } else if (action == ACTION_ALP_TRANSFER) {
+            } else if (action == ACTION_BENTO_DEPOSIT) {
+                (value1, value2) = _bentoDeposit(datas[i], values[i], value1, value2);
+            } else if (action == ACTION_BENTO_WITHDRAW) {
+                (value1, value2) = _bentoWithdraw(datas[i], value1, value2);
+            } else if (action == ACTION_BENTO_TRANSFER) {
                 (IERC20 token, address to, int256 share) = abi.decode(datas[i], (IERC20, address, int256));
                 alPine.transfer(token, msg.sender, to, _num(share, value1, value2));
-            } else if (action == ACTION_ALP_TRANSFER_MULTIPLE) {
+            } else if (action == ACTION_BENTO_TRANSFER_MULTIPLE) {
                 (IERC20 token, address[] memory tos, uint256[] memory shares) = abi.decode(datas[i], (IERC20, address[], uint256[]));
                 alPine.transferMultiple(token, msg.sender, tos, shares);
             } else if (action == ACTION_CALL) {

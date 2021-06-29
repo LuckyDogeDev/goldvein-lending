@@ -1,45 +1,7 @@
 module.exports = {
     hardhat: {
         solidity: {
-          compilers: [
-                 {
-                     version: "0.6.12",
-                     settings: {
-                         optimizer: {
-                             enabled: true,
-                             runs: 200,
-                         },
-                     },
-                 },
-                 {
-                     version: "0.6.8",
-                     settings: {
-                         optimizer: {
-                             enabled: true,
-                             runs: 200,
-                         },
-                     },
-                 }
-               ],
             overrides: {
-              "contracts/oracles/SimpleSLPTWAP1Oracle.sol": {
-                     version: "0.6.8",
-                     settings: {
-                         optimizer: {
-                             enabled: true,
-                             runs: 400,
-                         },
-                     },
-                 },
-                 "contracts/oracles/SimpleSLPTWAP0Oracle.sol": {
-                     version: "0.6.8",
-                     settings: {
-                         optimizer: {
-                             enabled: true,
-                             runs: 400,
-                         },
-                     },
-                 },
                 "contracts/GoldVeinPair.sol": {
                     version: "0.6.12",
                     settings: {

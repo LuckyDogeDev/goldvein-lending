@@ -155,18 +155,18 @@ contract GoldVeinPairHarnessFlat is GoldVeinPairMediumRiskV1 {
                 // (bool must_update, uint256 minRate, uint256 maxRate) = abi.decode(datas[i], (bool, uint256, uint256));
                 // (bool updated, uint256 rate) = updateExchangeRate();
                 // require((!must_update || updated) && rate > minRate && (maxRate == 0 || rate > maxRate), "GoldVeinPair: rate not ok");
-            } else if (action == ACTION_ALP_SETAPPROVAL) {
+            } else if (action == ACTION_BENTO_SETAPPROVAL) {
                 // (address user, address _masterContract, bool approved, uint8 v, bytes32 r, bytes32 s) =
                 // abi.decode(datas[i], (address, address, bool, uint8, bytes32, bytes32));
                 // alPine.setMasterContractApproval(user, _masterContract, approved, v, r, s);
-            } else if (action == ACTION_ALP_DEPOSIT) {
-                // (value1, value2) = _alpDeposit(datas[i], values[i], value1, value2);
-            } else if (action == ACTION_ALP_WITHDRAW) {
-                // (value1, value2) = _alpWithdraw(datas[i], value1, value2);
-            } else if (action == ACTION_ALP_TRANSFER) {
+            } else if (action == ACTION_BENTO_DEPOSIT) {
+                // (value1, value2) = _bentoDeposit(datas[i], values[i], value1, value2);
+            } else if (action == ACTION_BENTO_WITHDRAW) {
+                // (value1, value2) = _bentoWithdraw(datas[i], value1, value2);
+            } else if (action == ACTION_BENTO_TRANSFER) {
                 // (IERC20 token, address to, int256 share) = abi.decode(datas[i], (IERC20, address, int256));
                 // alPine.transfer(token, msg.sender, to, _num(share, value1, value2));
-            } else if (action == ACTION_ALP_TRANSFER_MULTIPLE) {
+            } else if (action == ACTION_BENTO_TRANSFER_MULTIPLE) {
                 // (IERC20 token, address[] memory tos, uint256[] memory shares) = abi.decode(datas[i], (IERC20, address[], uint256[]));
                 // alPine.transferMultiple(token, msg.sender, tos, shares);
             } else if (action == ACTION_CALL) {

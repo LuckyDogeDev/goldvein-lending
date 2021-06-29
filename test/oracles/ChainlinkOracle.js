@@ -1,6 +1,6 @@
 const { network } = require("hardhat")
 const { expect } = require("chai")
-const { getBigNumber, createFixture, ADDRESS_ZERO } = require("@luckyfinance/hardhat-framework")
+const { getBigNumber, createFixture, ADDRESS_ZERO } = require("@sushiswap/hardhat-framework")
 
 let cmd, fixture
 
@@ -8,9 +8,9 @@ describe("ChainLink Oracle", function () {
     before(async function () {
         fixture = await createFixture(deployments, this, async (cmd) => {
             await cmd.deploy("oracle", "ChainlinkOracle")
-            const GOLN_ETH = "0xe572CeF69f43c2E488b33924AF04BDacE19079cf"
-            this.oracleData = await this.oracle.getDataParameter(GOLN_ETH, ADDRESS_ZERO, getBigNumber(1,36))
-            this.oracleData2 = await this.oracle.getDataParameter(ADDRESS_ZERO, GOLN_ETH, getBigNumber(1))
+            const GOLDNUGGET_ETH = "0xe572CeF69f43c2E488b33924AF04BDacE19079cf"
+            this.oracleData = await this.oracle.getDataParameter(GOLDNUGGET_ETH, ADDRESS_ZERO, getBigNumber(1,36))
+            this.oracleData2 = await this.oracle.getDataParameter(ADDRESS_ZERO, GOLDNUGGET_ETH, getBigNumber(1))
         })
     })
 

@@ -482,57 +482,57 @@ contract BoringHelperV1 is Ownable {
     using BoringERC20 for IPair;
     using BoringPair for IPair;
 
-    IGoldMiner public miner; // IGoldMiner(0xddB4E76521cA2DA81686Eb84106F15286BBe2Cdb);
-    address public smelter; // ISmelter(0x59f84BbeE8b8cbE2aC45F1B7711f4034B2Ae0408);
-    IERC20 public goldnugget; // IGoldNugget(0xc6D69475f115F61B1e8C4e78c20C49201c869DB4);
+    IGoldMiner public chef; // IGoldMiner(0xc2EdaD668740f1aA35E4D8f227fB8E17dcA888Cd);
+    address public maker; // ISmelter(0xE11fc0B43ab98Eb91e9836129d1ee7c3Bc95df50);
+    IERC20 public goldnugget; // IGoldNugget(0x6B3595068778DD592e39A122f4f5a5cF09C90fE2);
     IERC20 public WETH; // 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2;
     IERC20 public WBTC; // 0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599;
-    IFactory public goldnuggetFactory; // IFactory(0x58100D88DE401bf6be6a3E77D0Da0270648efbbE);
+    IFactory public goldnuggetFactory; // IFactory(0xC0AEe478e3658e2610c5F7A4A2E1777cE9e4f2Ac);
     IFactory public uniV2Factory; // IFactory(0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f);
-    IERC20 public bench; // 0xCfbB59ba22F0B0dB768A7C00e8177bBB9b35B8B4;
+    IERC20 public bar; // 0x8798249c2E607446EfB7Ad49eC89dD1865Ff4272;
     IAlpine public alPine; // 0xB5891167796722331b7ea7824F036b3Bdcb4531C
 
     constructor(
-        IGoldMiner miner_,
-        address smelter_,
+        IGoldMiner chef_,
+        address maker_,
         IERC20 goldnugget_,
         IERC20 WETH_,
         IERC20 WBTC_,
         IFactory goldnuggetFactory_,
         IFactory uniV2Factory_,
-        IERC20 bench_,
+        IERC20 bar_,
         IAlpine alPine_
     ) public {
-        miner = miner_;
-        smelter = smelter_;
+        chef = chef_;
+        maker = maker_;
         goldnugget = goldnugget_;
         WETH = WETH_;
         WBTC = WBTC_;
         goldnuggetFactory = goldnuggetFactory_;
         uniV2Factory = uniV2Factory_;
-        bench = bench_;
+        bar = bar_;
         alPine = alPine_;
     }
 
     function setContracts(
-        IGoldMiner miner_,
-        address smelter_,
+        IGoldMiner chef_,
+        address maker_,
         IERC20 goldnugget_,
         IERC20 WETH_,
         IERC20 WBTC_,
         IFactory goldnuggetFactory_,
         IFactory uniV2Factory_,
-        IERC20 bench_,
+        IERC20 bar_,
         IAlpine alPine_
     ) public onlyOwner {
-        miner = miner_;
-        smelter = smelter_;
+        chef = chef_;
+        maker = maker_;
         goldnugget = goldnugget_;
         WETH = WETH_;
         WBTC = WBTC_;
         goldnuggetFactory = goldnuggetFactory_;
         uniV2Factory = uniV2Factory_;
-        bench = bench_;
+        bar = bar_;
         alPine = alPine_;
     }
 
@@ -585,11 +585,11 @@ contract BoringHelperV1 is Ownable {
 
     struct UIInfo {
         uint256 ethBalance;
-        uint256 golnBalance;
-        uint256 alchemyBenchBalance;
+        uint256 goldnuggetBalance;
+        uint256 goldnuggetBarBalance;
         uint256 platinumnuggetBalance;
         uint256 platinumnuggetSupply;
-        uint256 alchemyBenchAllowance;
+        uint256 goldnuggetBarAllowance;
         Factory[] factories;
         uint256 ethRate;
         uint256 goldnuggetRate;
@@ -630,21 +630,21 @@ contract BoringHelperV1 is Ownable {
 
         if (goldnugget != IERC20(0)) {
             info.goldnuggetRate = getETHRate(goldnugget);
-            info.golnBalance = goldnugget.balanceOf(who);
-            info.alchemyBenchBalance = goldnugget.balanceOf(address(bench));
-            info.alchemyBenchAllowance = goldnugget.allowance(who, address(bench));
+            info.goldnuggetBalance = goldnugget.balanceOf(who);
+            info.goldnuggetBarBalance = goldnugget.balanceOf(address(bar));
+            info.goldnuggetBarAllowance = goldnugget.allowance(who, address(bar));
         }
 
-        if (bench != IERC20(0)) {
-            info.platinumnuggetBalance = bench.balanceOf(who);
-            info.platinumnuggetSupply = bench.totalSupply();
+        if (bar != IERC20(0)) {
+            info.platinumnuggetBalance = bar.balanceOf(who);
+            info.platinumnuggetSupply = bar.totalSupply();
         }
 
-        if (miner != IGoldMiner(0)) {
-            uint256 poolLength = miner.poolLength();
+        if (chef != IGoldMiner(0)) {
+            uint256 poolLength = chef.poolLength();
             uint256 pendingGoldNugget;
             for (uint256 i = 0; i < poolLength; i++) {
-                pendingGoldNugget += miner.pendingGoldNugget(i, who);
+                pendingGoldNugget += chef.pendingGoldNugget(i, who);
             }
             info.pendingGoldNugget = pendingGoldNugget;
         }
@@ -656,18 +656,18 @@ contract BoringHelperV1 is Ownable {
     struct Balance {
         IERC20 token;
         uint256 balance;
-        uint256 alpBalance;
+        uint256 bentoBalance;
     }
 
     struct BalanceFull {
         IERC20 token;
         uint256 totalSupply;
         uint256 balance;
-        uint256 alpBalance;
-        uint256 alpAllowance;
+        uint256 bentoBalance;
+        uint256 bentoAllowance;
         uint256 nonce;
-        uint128 alpAmount;
-        uint128 alpShare;
+        uint128 bentoAmount;
+        uint128 bentoShare;
         uint256 rate;
     }
 
@@ -703,7 +703,7 @@ contract BoringHelperV1 is Ownable {
             IERC20 token = IERC20(addresses[i]);
             balances[i].token = token;
             balances[i].balance = token.balanceOf(who);
-            balances[i].alpBalance = alPine.balanceOf(token, who);
+            balances[i].bentoBalance = alPine.balanceOf(token, who);
         }
 
         return balances;
@@ -717,10 +717,10 @@ contract BoringHelperV1 is Ownable {
             balances[i].totalSupply = token.totalSupply();
             balances[i].token = token;
             balances[i].balance = token.balanceOf(who);
-            balances[i].alpAllowance = token.allowance(who, address(alPine));
+            balances[i].bentoAllowance = token.allowance(who, address(alPine));
             balances[i].nonce = token.nonces(who);
-            balances[i].alpBalance = alPine.balanceOf(token, who);
-            (balances[i].alpAmount, balances[i].alpShare) = alPine.totals(token);
+            balances[i].bentoBalance = alPine.balanceOf(token, who);
+            (balances[i].bentoAmount, balances[i].bentoShare) = alPine.totals(token);
             balances[i].rate = getETHRate(token);
         }
 
@@ -794,15 +794,15 @@ contract BoringHelperV1 is Ownable {
 
     function getPools(uint256[] calldata pids) public view returns (PoolsInfo memory, PoolInfo[] memory) {
         PoolsInfo memory info;
-        info.totalAllocPoint = miner.totalAllocPoint();
-        uint256 poolLength = miner.poolLength();
+        info.totalAllocPoint = chef.totalAllocPoint();
+        uint256 poolLength = chef.poolLength();
         info.poolLength = poolLength;
 
         PoolInfo[] memory pools = new PoolInfo[](pids.length);
 
         for (uint256 i = 0; i < pids.length; i++) {
             pools[i].pid = pids[i];
-            (address lpToken, uint256 allocPoint, , ) = miner.poolInfo(pids[i]);
+            (address lpToken, uint256 allocPoint, , ) = chef.poolInfo(pids[i]);
             IPair uniV2 = IPair(lpToken);
             pools[i].lpToken = uniV2;
             pools[i].allocPoint = allocPoint;
@@ -831,7 +831,7 @@ contract BoringHelperV1 is Ownable {
 
         for (uint256 i = 0; i < pids.length; i++) {
             pools[i].pid = pids[i];
-            (pools[i].balance, ) = miner.userInfo(pids[i], who);
+            (pools[i].balance, ) = chef.userInfo(pids[i], who);
         }
 
         return pools;
@@ -843,7 +843,7 @@ contract BoringHelperV1 is Ownable {
         uint256 totalSupply; // Token staked lp tokens
         uint256 lpBalance; // Balance of lp tokens not staked
         uint256 lpTotalSupply; // TotalSupply of lp tokens
-        uint256 lpAllowance; // LP tokens approved for goldminer
+        uint256 lpAllowance; // LP tokens approved for masterchef
         uint256 reserve0;
         uint256 reserve1;
         uint256 rewardDebt;
@@ -854,17 +854,17 @@ contract BoringHelperV1 is Ownable {
         UserPoolInfo[] memory pools = new UserPoolInfo[](pids.length);
 
         for (uint256 i = 0; i < pids.length; i++) {
-            (uint256 amount, ) = miner.userInfo(pids[i], who);
+            (uint256 amount, ) = chef.userInfo(pids[i], who);
             pools[i].balance = amount;
-            pools[i].pending = miner.pendingGoldNugget(pids[i], who);
+            pools[i].pending = chef.pendingGoldNugget(pids[i], who);
 
-            (address lpToken, , , ) = miner.poolInfo(pids[i]);
+            (address lpToken, , , ) = chef.poolInfo(pids[i]);
             pools[i].pid = pids[i];
             IPair uniV2 = IPair(lpToken);
             IFactory factory = uniV2.factory();
             if (factory != IFactory(0)) {
-                pools[i].totalSupply = uniV2.balanceOf(address(miner));
-                pools[i].lpAllowance = uniV2.allowance(who, address(miner));
+                pools[i].totalSupply = uniV2.balanceOf(address(chef));
+                pools[i].lpAllowance = uniV2.allowance(who, address(chef));
                 pools[i].lpBalance = uniV2.balanceOf(who);
                 pools[i].lpTotalSupply = uniV2.totalSupply();
 

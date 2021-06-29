@@ -10,30 +10,30 @@ interface IAggregator {
 
 /// @title PlatinumNuggetOracle
 /// @author BoringCrypto
-/// @notice Oracle used for getting the price of PlatinumNugget based on Chainlink
+/// @notice Oracle used for getting the price of PLAN based on Chainlink
 /// @dev
 contract PlatinumNuggetOracle is IOracle {
     using BoringMath for uint256; // Keep everything in uint256
 
     IERC20 public immutable goldnugget;
-    IERC20 public immutable bench;
-    IAggregator public immutable luckyOracle;
+    IERC20 public immutable bar;
+    IAggregator public immutable goldnuggetOracle;
 
     constructor(
         IERC20 goldnugget_,
-        IERC20 bench_,
-        IAggregator luckyOracle_
+        IERC20 bar_,
+        IAggregator goldnuggetOracle_
     ) public {
         goldnugget = goldnugget_;
-        bench = bench_;
-        luckyOracle = luckyOracle_;
+        bar = bar_;
+        goldnuggetOracle = goldnuggetOracle_;
     }
 
     // Calculates the lastest exchange rate
-    // Uses goldnugget rate and PlatinumNugget conversion and divide for any conversion other than from GoldNugget to ETH
+    // Uses goldnugget rate and PLAN conversion and divide for any conversion other than from GOLN to ETH
     function _get(address divide, uint256 decimals) internal view returns (uint256) {
         uint256 price = uint256(1e36);
-        price = (price.mul(uint256(luckyOracle.latestAnswer())) / bench.totalSupply()).mul(goldnugget.balanceOf(address(bench)));
+        price = (price.mul(uint256(goldnuggetOracle.latestAnswer())) / bar.totalSupply()).mul(goldnugget.balanceOf(address(bar)));
 
         if (divide != address(0)) {
             price = price / uint256(IAggregator(divide).latestAnswer());
@@ -68,11 +68,11 @@ contract PlatinumNuggetOracle is IOracle {
 
     /// @inheritdoc IOracle
     function name(bytes calldata) public view override returns (string memory) {
-        return "PlatinumNugget Chainlink";
+        return "PLAN Chainlink";
     }
 
     /// @inheritdoc IOracle
     function symbol(bytes calldata) public view override returns (string memory) {
-        return "PlatinumNugget-LINK";
+        return "PLAN-LINK";
     }
 }

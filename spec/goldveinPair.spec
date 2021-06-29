@@ -12,7 +12,7 @@ methods {
 	totalBorrowElastic() returns (uint256) envfree
 	totalBorrowBase() returns (uint256) envfree
 	borrowToElastic(uint256 part) returns (uint256) envfree
-
+	
 	collateralInstance.balanceOf(address a) returns (uint256) envfree
 	feesEarnedFraction() returns (uint128) envfree
 	collateral() returns (address) envfree
@@ -28,7 +28,7 @@ methods {
 	alPine.toShare(address token, uint256 amount, bool roundUp) returns (uint256) envfree
 	alPine.toAmount(address token, uint256 share, bool roundUp) returns (uint256) envfree
 	alPine.deposit(address token, address from, address to, uint256 amount, uint256 share) => DISPATCHER(true)
-
+	
 	// Swapper
 	swap(address fromToken, address toToken, address recipient, uint256 amountToMin, uint256 shareFrom) => DISPATCHER(true)
 	swappers(address) => NONDET
@@ -58,7 +58,7 @@ definition ACTION_BORROW() returns uint8 = 5;
 definition ACTION_ADD_COLLATERAL() returns uint8 = 10;
 definition MAX_UINT256() returns uint256 =
 	0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF;
-
+	
 // represents the sum of userCollateralShare[a] for all addresses a
 ghost userCollateralSum() returns uint256 {
     init_state axiom userCollateralSum() == 0;
@@ -76,30 +76,30 @@ ghost userBorrowSum() returns uint256 {
 
 // update userCollateralSum on every assginment to userCollateralShare
 hook Sstore userCollateralShare [KEY uint a] uint share (uint oldShare) STORAGE {
-	havoc userCollateralSum assuming userCollateralSum@new() == userCollateralSum@old() + share - oldShare;
+	havoc userCollateralSum assuming userCollateralSum@new() == userCollateralSum@old() + share - oldShare; 
 }
 
 // when loading userCollateralShare[a] assume that the sum is more than the loaded value
-hook Sload uint256 share userCollateralShare[KEY uint a] STORAGE {
+hook Sload uint256 share userCollateralShare[KEY uint a] STORAGE { 
 	require userCollateralSum() >= share;
 }
 
 // update userBalanceOfSum on every assginment to balanceOf
 hook Sstore balanceOf [KEY uint a] uint balance (uint oldBalance) STORAGE {
-	havoc userBalanceOfSum assuming userBalanceOfSum@new() == userBalanceOfSum@old() + balance - oldBalance;
+	havoc userBalanceOfSum assuming userBalanceOfSum@new() == userBalanceOfSum@old() + balance - oldBalance; 
 }
 
 // when loading balanceOf[a] assume that the sum is more than the loaded value
-hook Sload uint256 b balanceOf[KEY uint a] STORAGE {
+hook Sload uint256 b balanceOf[KEY uint a] STORAGE { 
 	require userBalanceOfSum() >= b;
 }
 
 // update userBorrowSum on every assginment to balanceOf
 hook Sstore userBorrowPart [KEY uint a] uint part (uint oldPart) STORAGE {
-	havoc userBorrowSum assuming userBorrowSum@new() == userBorrowSum@old() + part - oldPart &&userBorrowSum@old() >= oldPart;
+	havoc userBorrowSum assuming userBorrowSum@new() == userBorrowSum@old() + part - oldPart &&userBorrowSum@old() >= oldPart; 
 }
 // when loading userBorrowPart[a] assume that the sum is more than the loaded value
-hook Sload uint256 part userBorrowPart[KEY uint a] STORAGE {
+hook Sload uint256 part userBorrowPart[KEY uint a] STORAGE { 
 	require userBorrowSum() >= part;
 }
 
@@ -109,7 +109,7 @@ invariant totalCollateralEqUserCollateralSum()
 	userCollateralSum() == totalCollateralShare()
 
 invariant totalSupplyEqUserBalanceOfSum()
-	userBalanceOfSum() + feesEarnedFraction() == totalSupply()
+	userBalanceOfSum() + feesEarnedFraction() == totalSupply() 
 
 invariant totalBorrowEqUserBorrowSum()
 	userBorrowSum() == totalBorrowBase()
@@ -119,15 +119,15 @@ invariant validityOfTotalSupply()
 	((totalSupply() == 0) => (totalAssetElastic() == 0))
 
 invariant integrityOfZeroBorrowAssets()
-	totalBorrowElastic() >= totalBorrowBase() &&
+	totalBorrowElastic() >= totalBorrowBase() && 
 	((totalBorrowElastic() == 0) <=> (totalBorrowBase() == 0)) {
-		// prove this only on a simplified version
+		// prove this only on a simplified version 
 		preserved repay(address to, bool skim, uint256 amount) with (env e) {
-			require false;
+			require false; 
 		}
 
 		preserved liquidate(address[] users, uint256[] amounts, address to, address swap, bool open) with (env e) {
-			require false;
+			require false; 
 		}
 	}
 
@@ -136,7 +136,7 @@ invariant integrityOfZeroBorrowAssets()
 rule totalCollateralLeAlpineBalanceOf(method f) { // Le: less than or equal to
 	setup();
 
-	require alPine.balanceOf(collateralInstance, currentContract) >= totalCollateralShare();
+	require alPine.balanceOf(collateralInstance, currentContract) >= totalCollateralShare(); 
 
 	env e;
 	calldataarg args;
@@ -145,7 +145,7 @@ rule totalCollateralLeAlpineBalanceOf(method f) { // Le: less than or equal to
 
 	f(e, args);
 
-	assert alPine.balanceOf(collateralInstance, currentContract) >= totalCollateralShare();
+	assert alPine.balanceOf(collateralInstance, currentContract) >= totalCollateralShare(); 
 }
 
 rule totalAssetElasticLeAlpineBalanceOf(method f) { // Le: less than or equal to
@@ -160,7 +160,7 @@ rule totalAssetElasticLeAlpineBalanceOf(method f) { // Le: less than or equal to
 
 	f(e, args);
 
-	assert alPine.balanceOf(assetInstance, currentContract) >= totalAssetElastic();
+	assert alPine.balanceOf(assetInstance, currentContract) >= totalAssetElastic(); 
 }
 
 function validState() {
@@ -185,12 +185,12 @@ rule noChangeToOthersBorrowPart(method f, address other) {
 	require other != e.msg.sender;
 
 	uint256 _othersBorrowAsset = userBorrowPart(other);
-
+	
 	calldataarg args;
 	f(e, args);
 
 	uint256 othersBorrowAsset_ = userBorrowPart(other);
-
+	
 	assert (_othersBorrowAsset >= othersBorrowAsset_,
 			"other's borrow part changed");
 }
@@ -212,8 +212,8 @@ rule noChangeToOthersAssetFraction(address from, address to, address other,
 
 	// f.selector == addAsset, transfer, or transferFrom
 	// to is only limited in those cases
-	if (other == to || other == feeTo()) {
-		assert (_othersAssetFraction <= othersAssetFraction_,
+	if (other == to || other == feeTo()) { 
+		assert (_othersAssetFraction <= othersAssetFraction_, 
 				"other's asset fraction changed");
 	} else {
 		assert (_othersAssetFraction == othersAssetFraction_,
@@ -226,7 +226,7 @@ rule noChangeToOthersCollateralShare(address other, address to, bool skim,
 	validState();
 	env e;
 
-	require other != e.msg.sender;
+	require other != e.msg.sender; 
 
 	uint256 _othersCollateralShare = userCollateralShare(other);
 
@@ -237,12 +237,12 @@ rule noChangeToOthersCollateralShare(address other, address to, bool skim,
 		calldataarg args;
 		f(e, args);
 	}
-
+	
 	uint256 othersCollateralShare_ = userCollateralShare(other);
 
 	// to is only limited when f.selector == addCollateral(address, bool, uint256).selector
-	if (other == to) {
-		assert (_othersCollateralShare <= othersCollateralShare_,
+	if (other == to) { 
+		assert (_othersCollateralShare <= othersCollateralShare_, 
 				"other's collateral share changed");
 	} else {
 		assert (_othersCollateralShare == othersCollateralShare_,
@@ -268,10 +268,10 @@ rule integrityOfSkimAddCollateral(address to, uint256 share, address from) {
 	require e.msg.sender != currentContract && e.msg.sender != alPine;
 	require from == e.msg.sender;
 
-	require  alPine.balanceOf(collateralInstance, currentContract) ==  _totalCollateralShare;
+	require  alPine.balanceOf(collateralInstance, currentContract) ==  _totalCollateralShare; 
 	require  _collateralShare <= _totalCollateralShare;
 
-	// transfer shares to lendingPair account in Alpine
+	// transfer shares to lendingPair account in Alpine 
 	sinvoke alPine.transfer(eAlp, collateralInstance, from, currentContract, share);
 
 	// check if add collateral is successful
@@ -285,16 +285,16 @@ rule integrityOfSkimAddCollateral(address to, uint256 share, address from) {
 	assert successful && collateralShare_ == _collateralShare + share;
 }
 
-// totalCollateralShare and userCollateralShare shouldn't change if we add
+// totalCollateralShare and userCollateralShare shouldn't change if we add 
 // "x" share worth of collateral then remove "x" share worth of collateral
 rule addThenRemoveCollateral(address to, bool skim, uint256 share) {
 	validState();
 	env e;
 
-	require e.msg.sender == to && to != 0;
+	require e.msg.sender == to && to != 0; 
 
 	uint256 _totalCollateralShare = totalCollateralShare();
-	uint256 _userCollateralShare = userCollateralShare(to);
+	uint256 _userCollateralShare = userCollateralShare(to); 
 
 	addCollateral(e, to, skim, share);
 	removeCollateral(e, to, share);
@@ -302,10 +302,10 @@ rule addThenRemoveCollateral(address to, bool skim, uint256 share) {
 	uint256 totalCollateralShare_ = totalCollateralShare();
 	uint256 userCollateralShare_ = userCollateralShare(to);
 
-	assert (_totalCollateralShare == totalCollateralShare_,
+	assert (_totalCollateralShare == totalCollateralShare_, 
 			"total asset base changed");
 
-	assert (_userCollateralShare == userCollateralShare_,
+	assert (_userCollateralShare == userCollateralShare_, 
 			"balance of user changed");
 }
 
@@ -331,7 +331,7 @@ rule solventUser(address user, bool open, method f) {
 	env e;
 	calldataarg args;
 	f(e, args);
-
+	
 	assert isSolvent(user, open), "by performing an operation reached an insolvent state";
 }
 
@@ -365,13 +365,13 @@ rule integrityOfAccrueInterest() {
 ////////////////////////////////////////////////////////////////////////////////
 rule integrityOfLiquidate() {
 	validState();
-
+	
 	env e;
 
 	uint256 collateralBalanceBefore = alPine.balanceOf(collateralInstance, currentContract);
 	uint256 assetBalanceBefore = alPine.balanceOf(assetInstance, currentContract);
 
-	// when there is excess balance in alpine then the fee paid on the extra can be more than the asset gained from liquidation
+	// when there is excess balance in bentobox then the fee paid on the extra can be more than the asset gained from liquidation
 	require totalAssetElastic() == assetBalanceBefore;
 	require e.msg.sender != currentContract;
 
@@ -388,10 +388,10 @@ rule integrityOfLiquidate() {
 
 	assert (collateralBalanceAfter <= collateralBalanceBefore,
 			"collateral balance increased");
-
+			
 	assert (assetBalanceAfter > assetBalanceBefore) <=> (collateralBalanceAfter < collateralBalanceBefore),
 			"only one balance changed";
-
+			
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -417,7 +417,7 @@ rule integrityOfSolvencyCheck(method f) {
 		require action == ACTION_ADD_COLLATERAL();
 	else
 		require action == 0 || ( action > 5 && action != 10);
-
+	
 	storage init = lastStorage;
 	symbolicCook(e,action);
 	bool setSolvency = needsSolvencyCheck();
@@ -429,9 +429,9 @@ rule integrityOfSolvencyCheck(method f) {
 // Helper Functions
 
 // easy to use dispatcher (currently only being used by noChangeToOthersAssetFraction)
-// WARNING: Be careful if you limit one of the parameters, it can be limited for
+// WARNING: Be careful if you limit one of the parameters, it can be limited for 
 // many functions.
-function callFunctionWithParams(address from, address to, address other,
+function callFunctionWithParams(address from, address to, address other, 
 								uint256 amount, uint256 share, bool skim,
 								method f) {
 	env e;
@@ -442,7 +442,7 @@ function callFunctionWithParams(address from, address to, address other,
 		addAsset(e, to, skim, share);
 	} else if (f.selector == transferFrom(address, address, uint256).selector) {
 		require( balanceOf(from) + balanceOf(to) <= MAX_UINT256());
-		transferFrom(e, from, to, amount);
+		transferFrom(e, from, to, amount); 
 	} else if  (f.selector == transfer(address, uint256).selector) {
 		require( balanceOf(e.msg.sender) + balanceOf(to) <= MAX_UINT256());
 		transfer(e, to, amount); // IERC20 function

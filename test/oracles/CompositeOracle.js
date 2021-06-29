@@ -1,6 +1,6 @@
 const { ethers } = require("hardhat")
 const { expect } = require("chai")
-const { getBigNumber, roundBN, advanceTime, createFixture } = require("@luckyfinance/hardhat-framework")
+const { getBigNumber, roundBN, advanceTime, createFixture } = require("@sushiswap/hardhat-framework")
 
 describe("CompositeOracle", function () {
     before(async function () {
@@ -10,20 +10,20 @@ describe("CompositeOracle", function () {
 
         fixture = await createFixture(deployments, this, async (cmd) => {
             await cmd.deploy("weth9", "WETH9Mock")
-            await cmd.deploy("goldnuggetToken", "ReturnFalseERC20Mock", "GOLN", "GOLN", 18, getBigNumber("10000000"))
+            await cmd.deploy("goldnugget", "ReturnFalseERC20Mock", "GOLN", "GOLN", 18, getBigNumber("10000000"))
             await cmd.deploy("ethToken", "ReturnFalseERC20Mock", "WETH", "ETH", 18, getBigNumber("10000000"))
             await cmd.deploy("daiToken", "ReturnFalseERC20Mock", "DAI", "DAI", 18, getBigNumber("10000000"))
             await cmd.deploy("factory", "UniswapV2Factory", this.alice.address)
             await cmd.deploy("alPine", "AlpineMock", this.weth9.address)
 
-            let createPairTx = await this.factory.createPair(this.goldnuggetToken.address, this.ethToken.address)
+            let createPairTx = await this.factory.createPair(this.goldnugget.address, this.ethToken.address)
 
             const pairGoldNuggetEth = (await createPairTx.wait()).events[0].args.pair
 
             await cmd.getContract("UniswapV2Pair")
             this.pairGoldNuggetEth = await this.UniswapV2Pair.attach(pairGoldNuggetEth)
 
-            await this.goldnuggetToken.transfer(this.pairGoldNuggetEth.address, this.goldnuggetAmount)
+            await this.goldnugget.transfer(this.pairGoldNuggetEth.address, this.goldnuggetAmount)
             await this.ethToken.transfer(this.pairGoldNuggetEth.address, this.ethAmount)
 
             await this.pairGoldNuggetEth.mint(this.alice.address)
@@ -97,7 +97,7 @@ describe("CompositeOracle", function () {
 
             //half the goldnugget price
             await advanceTime(150, ethers)
-            await this.goldnuggetToken.transfer(this.pairGoldNuggetEth.address, getBigNumber(400))
+            await this.goldnugget.transfer(this.pairGoldNuggetEth.address, getBigNumber(400))
             await this.pairGoldNuggetEth.sync()
             await advanceTime(150, ethers)
 

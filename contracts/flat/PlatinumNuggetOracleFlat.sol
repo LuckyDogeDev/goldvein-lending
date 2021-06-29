@@ -29,28 +29,28 @@ interface IAggregator {
 
 /// @title PlatinumNuggetOracle
 /// @author BoringCrypto
-/// @notice Oracle used for getting the price of PlatinumNugget based on Chainlink GOLN price
+/// @notice Oracle used for getting the price of PLAN based on Chainlink GOLN price
 /// @dev
 contract PlatinumNuggetOracleV1 is IAggregator {
     using BoringMath for uint256;
 
     IERC20 public immutable goldnugget;
-    IERC20 public immutable bench;
-    IAggregator public immutable luckyOracle;
+    IERC20 public immutable bar;
+    IAggregator public immutable goldnuggetOracle;
 
     constructor(
         IERC20 goldnugget_,
-        IERC20 bench_,
-        IAggregator luckyOracle_
+        IERC20 bar_,
+        IAggregator goldnuggetOracle_
     ) public {
         goldnugget = goldnugget_;
-        bench = bench_;
-        luckyOracle = luckyOracle_;
+        bar = bar_;
+        goldnuggetOracle = goldnuggetOracle_;
     }
 
     // Calculates the lastest exchange rate
-    // Uses goldnugget rate and PlatinumNugget conversion
+    // Uses goldnugget rate and PLAN conversion
     function latestAnswer() external view override returns (int256) {
-        return int256(uint256(luckyOracle.latestAnswer()).mul(goldnugget.balanceOf(address(bench))) / bench.totalSupply());
+        return int256(uint256(goldnuggetOracle.latestAnswer()).mul(goldnugget.balanceOf(address(bar))) / bar.totalSupply());
     }
 }

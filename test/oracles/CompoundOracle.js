@@ -1,6 +1,6 @@
 const { network } = require("hardhat")
 const { expect } = require("chai")
-const { getBigNumber, createFixture, ADDRESS_ZERO } = require("@luckyfinance/hardhat-framework")
+const { getBigNumber, createFixture, ADDRESS_ZERO } = require("@sushiswap/hardhat-framework")
 
 let cmd, fixture
 
