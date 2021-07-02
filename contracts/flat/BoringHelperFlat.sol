@@ -483,56 +483,56 @@ contract BoringHelperV1 is Ownable {
     using BoringPair for IPair;
 
     IGoldMiner public chef; // IGoldMiner(0xc2EdaD668740f1aA35E4D8f227fB8E17dcA888Cd);
-    address public maker; // ISmelter(0xE11fc0B43ab98Eb91e9836129d1ee7c3Bc95df50);
+    address public smelter; // ISmelter(0xE11fc0B43ab98Eb91e9836129d1ee7c3Bc95df50);
     IERC20 public goldnugget; // IGoldNugget(0x6B3595068778DD592e39A122f4f5a5cF09C90fE2);
     IERC20 public WETH; // 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2;
     IERC20 public WBTC; // 0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599;
     IFactory public goldnuggetFactory; // IFactory(0xC0AEe478e3658e2610c5F7A4A2E1777cE9e4f2Ac);
     IFactory public uniV2Factory; // IFactory(0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f);
-    IERC20 public bar; // 0x8798249c2E607446EfB7Ad49eC89dD1865Ff4272;
+    IERC20 public bench; // 0x8798249c2E607446EfB7Ad49eC89dD1865Ff4272;
     IAlpine public alPine; // 0xB5891167796722331b7ea7824F036b3Bdcb4531C
 
     constructor(
         IGoldMiner chef_,
-        address maker_,
+        address smelter_,
         IERC20 goldnugget_,
         IERC20 WETH_,
         IERC20 WBTC_,
         IFactory goldnuggetFactory_,
         IFactory uniV2Factory_,
-        IERC20 bar_,
+        IERC20 bench_,
         IAlpine alPine_
     ) public {
         chef = chef_;
-        maker = maker_;
+        smelter = smelter_;
         goldnugget = goldnugget_;
         WETH = WETH_;
         WBTC = WBTC_;
         goldnuggetFactory = goldnuggetFactory_;
         uniV2Factory = uniV2Factory_;
-        bar = bar_;
+        bench = bench_;
         alPine = alPine_;
     }
 
     function setContracts(
         IGoldMiner chef_,
-        address maker_,
+        address smelter_,
         IERC20 goldnugget_,
         IERC20 WETH_,
         IERC20 WBTC_,
         IFactory goldnuggetFactory_,
         IFactory uniV2Factory_,
-        IERC20 bar_,
+        IERC20 bench_,
         IAlpine alPine_
     ) public onlyOwner {
         chef = chef_;
-        maker = maker_;
+        smelter = smelter_;
         goldnugget = goldnugget_;
         WETH = WETH_;
         WBTC = WBTC_;
         goldnuggetFactory = goldnuggetFactory_;
         uniV2Factory = uniV2Factory_;
-        bar = bar_;
+        bench = bench_;
         alPine = alPine_;
     }
 
@@ -631,13 +631,13 @@ contract BoringHelperV1 is Ownable {
         if (goldnugget != IERC20(0)) {
             info.goldnuggetRate = getETHRate(goldnugget);
             info.goldnuggetBalance = goldnugget.balanceOf(who);
-            info.goldnuggetBarBalance = goldnugget.balanceOf(address(bar));
-            info.goldnuggetBarAllowance = goldnugget.allowance(who, address(bar));
+            info.goldnuggetBarBalance = goldnugget.balanceOf(address(bench));
+            info.goldnuggetBarAllowance = goldnugget.allowance(who, address(bench));
         }
 
-        if (bar != IERC20(0)) {
-            info.platinumnuggetBalance = bar.balanceOf(who);
-            info.platinumnuggetSupply = bar.totalSupply();
+        if (bench != IERC20(0)) {
+            info.platinumnuggetBalance = bench.balanceOf(who);
+            info.platinumnuggetSupply = bench.totalSupply();
         }
 
         if (chef != IGoldMiner(0)) {
@@ -656,18 +656,18 @@ contract BoringHelperV1 is Ownable {
     struct Balance {
         IERC20 token;
         uint256 balance;
-        uint256 bentoBalance;
+        uint256 alpBalance;
     }
 
     struct BalanceFull {
         IERC20 token;
         uint256 totalSupply;
         uint256 balance;
-        uint256 bentoBalance;
-        uint256 bentoAllowance;
+        uint256 alpBalance;
+        uint256 alpAllowance;
         uint256 nonce;
-        uint128 bentoAmount;
-        uint128 bentoShare;
+        uint128 alpAmount;
+        uint128 alpShare;
         uint256 rate;
     }
 
@@ -703,7 +703,7 @@ contract BoringHelperV1 is Ownable {
             IERC20 token = IERC20(addresses[i]);
             balances[i].token = token;
             balances[i].balance = token.balanceOf(who);
-            balances[i].bentoBalance = alPine.balanceOf(token, who);
+            balances[i].alpBalance = alPine.balanceOf(token, who);
         }
 
         return balances;
@@ -717,10 +717,10 @@ contract BoringHelperV1 is Ownable {
             balances[i].totalSupply = token.totalSupply();
             balances[i].token = token;
             balances[i].balance = token.balanceOf(who);
-            balances[i].bentoAllowance = token.allowance(who, address(alPine));
+            balances[i].alpAllowance = token.allowance(who, address(alPine));
             balances[i].nonce = token.nonces(who);
-            balances[i].bentoBalance = alPine.balanceOf(token, who);
-            (balances[i].bentoAmount, balances[i].bentoShare) = alPine.totals(token);
+            balances[i].alpBalance = alPine.balanceOf(token, who);
+            (balances[i].alpAmount, balances[i].alpShare) = alPine.totals(token);
             balances[i].rate = getETHRate(token);
         }
 

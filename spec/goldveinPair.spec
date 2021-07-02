@@ -371,7 +371,7 @@ rule integrityOfLiquidate() {
 	uint256 collateralBalanceBefore = alPine.balanceOf(collateralInstance, currentContract);
 	uint256 assetBalanceBefore = alPine.balanceOf(assetInstance, currentContract);
 
-	// when there is excess balance in bentobox then the fee paid on the extra can be more than the asset gained from liquidation
+	// when there is excess balance in alpine then the fee paid on the extra can be more than the asset gained from liquidation
 	require totalAssetElastic() == assetBalanceBefore;
 	require e.msg.sender != currentContract;
 

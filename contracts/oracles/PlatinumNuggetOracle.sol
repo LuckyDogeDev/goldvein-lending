@@ -16,16 +16,16 @@ contract PlatinumNuggetOracle is IOracle {
     using BoringMath for uint256; // Keep everything in uint256
 
     IERC20 public immutable goldnugget;
-    IERC20 public immutable bar;
+    IERC20 public immutable bench;
     IAggregator public immutable goldnuggetOracle;
 
     constructor(
         IERC20 goldnugget_,
-        IERC20 bar_,
+        IERC20 bench_,
         IAggregator goldnuggetOracle_
     ) public {
         goldnugget = goldnugget_;
-        bar = bar_;
+        bench = bench_;
         goldnuggetOracle = goldnuggetOracle_;
     }
 
@@ -33,7 +33,7 @@ contract PlatinumNuggetOracle is IOracle {
     // Uses goldnugget rate and PLAN conversion and divide for any conversion other than from GOLN to ETH
     function _get(address divide, uint256 decimals) internal view returns (uint256) {
         uint256 price = uint256(1e36);
-        price = (price.mul(uint256(goldnuggetOracle.latestAnswer())) / bar.totalSupply()).mul(goldnugget.balanceOf(address(bar)));
+        price = (price.mul(uint256(goldnuggetOracle.latestAnswer())) / bench.totalSupply()).mul(goldnugget.balanceOf(address(bench)));
 
         if (divide != address(0)) {
             price = price / uint256(IAggregator(divide).latestAnswer());

@@ -1,5 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="9cb2f72f-904d-4513-a680-4202aabbe0ce" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/contracts/GoldVeinPair.sol" beforeDir="false" afterPath="$PROJECT_DIR$/contracts/GoldVeinPair.sol" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/contracts/flat/BoringHelperFlat.sol" beforeDir="false" afterPath="$PROJECT_DIR$/contracts/flat/BoringHelperFlat.sol" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/contracts/flat/GoldVeinPairFlat.sol" beforeDir="false" afterPath="$PROJECT_DIR$/contracts/flat/GoldVeinPairFlat.sol" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/contracts/flat/PlatinumNuggetOracleFlat.sol" beforeDir="false" afterPath="$PROJECT_DIR$/contracts/flat/PlatinumNuggetOracleFlat.sol" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/contracts/oracles/PlatinumNuggetOracle.sol" beforeDir="false" afterPath="$PROJECT_DIR$/contracts/oracles/PlatinumNuggetOracle.sol" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/deploy/GoldVeinPair.js" beforeDir="false" afterPath="$PROJECT_DIR$/deploy/GoldVeinPair.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/deployments/binancetest/solcInputs/fb6a464900d7316a0917c7a46953f263.json" beforeDir="false" afterPath="$PROJECT_DIR$/deployments/binancetest/solcInputs/fb6a464900d7316a0917c7a46953f263.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/deployments/fantom/solcInputs/fb6a464900d7316a0917c7a46953f263.json" beforeDir="false" afterPath="$PROJECT_DIR$/deployments/fantom/solcInputs/fb6a464900d7316a0917c7a46953f263.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/deployments/goerli/solcInputs/fb6a464900d7316a0917c7a46953f263.json" beforeDir="false" afterPath="$PROJECT_DIR$/deployments/goerli/solcInputs/fb6a464900d7316a0917c7a46953f263.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/deployments/huobi/solcInputs/fb6a464900d7316a0917c7a46953f263.json" beforeDir="false" afterPath="$PROJECT_DIR$/deployments/huobi/solcInputs/fb6a464900d7316a0917c7a46953f263.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/deployments/huobitest/solcInputs/fb6a464900d7316a0917c7a46953f263.json" beforeDir="false" afterPath="$PROJECT_DIR$/deployments/huobitest/solcInputs/fb6a464900d7316a0917c7a46953f263.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/deployments/kovan/solcInputs/fb6a464900d7316a0917c7a46953f263.json" beforeDir="false" afterPath="$PROJECT_DIR$/deployments/kovan/solcInputs/fb6a464900d7316a0917c7a46953f263.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/deployments/mainnet/solcInputs/fb6a464900d7316a0917c7a46953f263.json" beforeDir="false" afterPath="$PROJECT_DIR$/deployments/mainnet/solcInputs/fb6a464900d7316a0917c7a46953f263.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/deployments/matic/solcInputs/fb6a464900d7316a0917c7a46953f263.json" beforeDir="false" afterPath="$PROJECT_DIR$/deployments/matic/solcInputs/fb6a464900d7316a0917c7a46953f263.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/deployments/mumbai/solcInputs/fb6a464900d7316a0917c7a46953f263.json" beforeDir="false" afterPath="$PROJECT_DIR$/deployments/mumbai/solcInputs/fb6a464900d7316a0917c7a46953f263.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/deployments/rinkeby/solcInputs/fb6a464900d7316a0917c7a46953f263.json" beforeDir="false" afterPath="$PROJECT_DIR$/deployments/rinkeby/solcInputs/fb6a464900d7316a0917c7a46953f263.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/deployments/ropsten/solcInputs/fb6a464900d7316a0917c7a46953f263.json" beforeDir="false" afterPath="$PROJECT_DIR$/deployments/ropsten/solcInputs/fb6a464900d7316a0917c7a46953f263.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/deployments/xdai/solcInputs/fb6a464900d7316a0917c7a46953f263.json" beforeDir="false" afterPath="$PROJECT_DIR$/deployments/xdai/solcInputs/fb6a464900d7316a0917c7a46953f263.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spec/goldveinPair.spec" beforeDir="false" afterPath="$PROJECT_DIR$/spec/goldveinPair.spec" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spec/harness/GoldVeinPairHarness.sol" beforeDir="false" afterPath="$PROJECT_DIR$/spec/harness/GoldVeinPairHarness.sol" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spec/harness/GoldVeinPairHarnessFlat.sol" beforeDir="false" afterPath="$PROJECT_DIR$/spec/harness/GoldVeinPairHarnessFlat.sol" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spec/scripts/runGoldVeinPair.sh" beforeDir="false" afterPath="$PROJECT_DIR$/spec/scripts/runGoldVeinPair.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/GoldVeinPairStateMachine.js" beforeDir="false" afterPath="$PROJECT_DIR$/test/GoldVeinPairStateMachine.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/LendingPair.js" beforeDir="false" afterPath="$PROJECT_DIR$/test/LendingPair.js" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="ProjectId" id="1ulMyPCVNcAZbghSqfdxoWsBgGn" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_package_manager_path" value="yarn" />
+  </component>
   <component name="RunManager">
     <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
@@ -12,5 +72,31 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="9cb2f72f-904d-4513-a680-4202aabbe0ce" name="Default Changelist" comment="" />
+      <created>1625235977421</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1625235977421</updated>
+      <workItem from="1625235980266" duration="581000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

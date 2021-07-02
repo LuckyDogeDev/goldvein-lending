@@ -77,13 +77,13 @@ module.exports = async function (hre) {
         gasPrice: finalGasPrice,
     })
 
-    const bentobox = (await hre.ethers.getContractFactory("AlpineV1")).attach((await deployments.get("AlpineV1")).address)
+    const alpine = (await hre.ethers.getContractFactory("AlpineV1")).attach((await deployments.get("AlpineV1")).address)
     */
-    const bentobox = (await hre.ethers.getContractFactory("AlpineV1")).attach("0xF5BCE5077908a1b7370B9ae04AdC565EBd643966")
-    console.log("Deploying GoldVeinPair contract, using Alpine", bentobox.address)
+    const alpine = (await hre.ethers.getContractFactory("AlpineV1")).attach("0xF5BCE5077908a1b7370B9ae04AdC565EBd643966")
+    console.log("Deploying GoldVeinPair contract, using Alpine", alpine.address)
     tx = await hre.deployments.deploy("GoldVeinPairMediumRiskV1", {
         from: deployer.address,
-        args: [bentobox.address],
+        args: [alpine.address],
         log: true,
         deterministicDeployment: false,
         gasLimit: 5500000,
@@ -93,7 +93,7 @@ module.exports = async function (hre) {
     console.log("Deploying Swapper contract")
     tx = await hre.deployments.deploy("LuckySwapSwapperV1", {
         from: deployer.address,
-        args: [bentobox.address, factory, initCodeHash],
+        args: [alpine.address, factory, initCodeHash],
         log: true,
         deterministicDeployment: false,
         gasLimit: 1300000,
@@ -164,7 +164,7 @@ module.exports = async function (hre) {
                 ? "0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f"
                 : "0x0000000000000000000000000000000000000000",
             chainId == 1 ? "0x8798249c2E607446EfB7Ad49eC89dD1865Ff4272" : "0x1be211D8DA40BC0ae8719c6663307Bfc987b1d6c",
-            bentobox.address,
+            alpine.address,
         ],
         log: true,
         deterministicDeployment: false,
@@ -193,14 +193,14 @@ module.exports = async function (hre) {
     await tx.wait()
     /*
     console.log("Whitelisting GoldVeinPair")
-    tx = await bentobox.whitelistMasterContract(goldveinpair.address, true, {
+    tx = await alpine.whitelistMasterContract(goldveinpair.address, true, {
         gasLimit: 100000,
         gasPrice: finalGasPrice,
     })
     await tx.wait()
 
     console.log("Update Alpine Owner")
-    await bentobox.transferOwnership(goldnuggetOwner, true, false, {
+    await alpine.transferOwnership(goldnuggetOwner, true, false, {
         gasLimit: 100000,
         gasPrice: finalGasPrice,
     })*/

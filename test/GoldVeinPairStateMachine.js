@@ -10,7 +10,7 @@ module.exports = class GoldVeinPairStateMachine {
 
         // bookkeeping
         this._ignoreTransfers = false
-        this._bentoBalanceDeltas = []
+        this._alpBalanceDeltas = []
         this._transfers = []
 
         this.assetToken = null
@@ -20,14 +20,14 @@ module.exports = class GoldVeinPairStateMachine {
         this.collateralShares = {}
         this.borrowParts = {}
         this.assetBalances = {}
-        this.bentoBalances = {}
+        this.alpBalances = {}
         this.totalCollateralShare = ethers.BigNumber.from(0)
         this.totalAssetBase = ethers.BigNumber.from(0)
         this.totalAssetElastic = ethers.BigNumber.from(0)
         this.totalBorrowBase = ethers.BigNumber.from(0)
         this.totalBorrowElastic = ethers.BigNumber.from(0)
-        this.bentoTotalsBase = {}
-        this.bentoTotalsElastic = {}
+        this.alpTotalsBase = {}
+        this.alpTotalsElastic = {}
     }
 
     async init() {
@@ -37,19 +37,19 @@ module.exports = class GoldVeinPairStateMachine {
     }
 
     _getAlpBalance(token, addr) {
-        const bag = this.bentoBalances[token]
+        const bag = this.alpBalances[token]
         return bag && bag[addr] ? bag[addr] : ethers.BigNumber.from(0)
     }
 
     _setAlpBalance(token, addr, val) {
-        const bag = this.bentoBalances[token] || {}
+        const bag = this.alpBalances[token] || {}
         bag[addr] = val
-        this.bentoBalances[token] = bag
+        this.alpBalances[token] = bag
     }
 
     async toShare(tokenAddr, amount, roundUp) {
-        const base = this.bentoTotalsBase[tokenAddr]
-        const elastic = this.bentoTotalsElastic[tokenAddr]
+        const base = this.alpTotalsBase[tokenAddr]
+        const elastic = this.alpTotalsElastic[tokenAddr]
         let share
 
         if (elastic.eq(0)) {
@@ -65,21 +65,21 @@ module.exports = class GoldVeinPairStateMachine {
     }
 
     async _verifyAlpTransfer(token, from, to, share) {
-        this._bentoBalanceDeltas.push({ token, from, to, share })
+        this._alpBalanceDeltas.push({ token, from, to, share })
     }
 
     // alPine
     async onLogDeposit(token, from, to, amount, share) {
         this._transfers.push({ token, from, to, share })
-        this._bentoBalanceDeltas.push({ token, from, to, share })
+        this._alpBalanceDeltas.push({ token, from, to, share })
 
         let expected = this._getAlpBalance(token, to).add(share)
         this._setAlpBalance(token, to, expected)
 
-        const base = this.bentoTotalsBase[token] || ethers.BigNumber.from(0)
-        const elastic = this.bentoTotalsElastic[token] || ethers.BigNumber.from(0)
-        this.bentoTotalsBase[token] = base.add(share)
-        this.bentoTotalsElastic[token] = elastic.add(amount)
+        const base = this.alpTotalsBase[token] || ethers.BigNumber.from(0)
+        const elastic = this.alpTotalsElastic[token] || ethers.BigNumber.from(0)
+        this.alpTotalsBase[token] = base.add(share)
+        this.alpTotalsElastic[token] = elastic.add(amount)
     }
 
     // alPine
@@ -87,10 +87,10 @@ module.exports = class GoldVeinPairStateMachine {
         let expected = this._getAlpBalance(token, from).sub(share)
         this._setAlpBalance(token, from, expected)
 
-        const base = this.bentoTotalsBase[token] || ethers.BigNumber.from(0)
-        const elastic = this.bentoTotalsElastic[token] || ethers.BigNumber.from(0)
-        this.bentoTotalsBase[token] = base.sub(share)
-        this.bentoTotalsElastic[token] = elastic.sub(amount)
+        const base = this.alpTotalsBase[token] || ethers.BigNumber.from(0)
+        const elastic = this.alpTotalsElastic[token] || ethers.BigNumber.from(0)
+        this.alpTotalsBase[token] = base.sub(share)
+        this.alpTotalsElastic[token] = elastic.sub(amount)
     }
 
     // alPine
@@ -106,20 +106,20 @@ module.exports = class GoldVeinPairStateMachine {
 
     // alPine
     async onLogFlashLoan(borrower, token, amount, feeAmount, receiver) {
-        const elastic = this.bentoTotalsElastic[token] || ethers.BigNumber.from(0)
-        this.bentoTotalsElastic[token] = elastic.add(feeAmount)
+        const elastic = this.alpTotalsElastic[token] || ethers.BigNumber.from(0)
+        this.alpTotalsElastic[token] = elastic.add(feeAmount)
     }
 
     // alPine
     async onLogStrategyProfit(token, amount) {
-        const elastic = this.bentoTotalsElastic[token] || ethers.BigNumber.from(0)
-        this.bentoTotalsElastic[token] = elastic.add(amount)
+        const elastic = this.alpTotalsElastic[token] || ethers.BigNumber.from(0)
+        this.alpTotalsElastic[token] = elastic.add(amount)
     }
 
     // alPine
     async onLogStrategyLoss(token, amount) {
-        const elastic = this.bentoTotalsElastic[token] || ethers.BigNumber.from(0)
-        this.bentoTotalsElastic[token] = elastic.sub(amount)
+        const elastic = this.alpTotalsElastic[token] || ethers.BigNumber.from(0)
+        this.alpTotalsElastic[token] = elastic.sub(amount)
     }
 
     async onLogAccrue(accruedAmount, feeFraction, rate, utilization) {
@@ -189,7 +189,7 @@ module.exports = class GoldVeinPairStateMachine {
         expected = this.totalCollateralShare.sub(share)
         this.totalCollateralShare = expected
 
-        // check balance of collateral token in bento
+        // check balance of collateral token in alp
         await this._verifyAlpTransfer(this.collateralToken.address, this.goldveinPair.address, to, share)
     }
 
@@ -270,17 +270,17 @@ module.exports = class GoldVeinPairStateMachine {
     async verify() {
         if (!this._ignoreTransfers) {
             // if we are inside a closed liquidation, then it is not possible to predict the asset flow
-            expect(this._bentoBalanceDeltas.length, "should be equal to transfers").to.be.equal(this._transfers.length)
+            expect(this._alpBalanceDeltas.length, "should be equal to transfers").to.be.equal(this._transfers.length)
 
             while (this._transfers.length) {
                 const a = this._transfers.pop()
-                const b = this._bentoBalanceDeltas.pop()
+                const b = this._alpBalanceDeltas.pop()
 
                 expect(a).to.be.deep.equal(b)
             }
         }
         this._ignoreTransfers = false
-        this._bentoBalanceDeltas = []
+        this._alpBalanceDeltas = []
         this._transfers = []
 
         expect(this.totalCollateralShare, "total collateral").to.be.equal(await this.goldveinPair.totalCollateralShare())
@@ -301,15 +301,15 @@ module.exports = class GoldVeinPairStateMachine {
             expect(this.assetBalances[addr]).to.be.equal(await this.goldveinPair.balanceOf(addr))
         }
 
-        for (const tokenAddr in this.bentoBalances) {
-            for (const user in this.bentoBalances[tokenAddr]) {
-                expect(this._getAlpBalance(tokenAddr, user), "bento balance").to.be.equal(await this.alPine.balanceOf(tokenAddr, user))
+        for (const tokenAddr in this.alpBalances) {
+            for (const user in this.alpBalances[tokenAddr]) {
+                expect(this._getAlpBalance(tokenAddr, user), "alp balance").to.be.equal(await this.alPine.balanceOf(tokenAddr, user))
             }
         }
 
-        for (const tokenAddr in this.bentoTotalsBase) {
-            const base = this.bentoTotalsBase[tokenAddr]
-            const elastic = this.bentoTotalsElastic[tokenAddr]
+        for (const tokenAddr in this.alpTotalsBase) {
+            const base = this.alpTotalsBase[tokenAddr]
+            const elastic = this.alpTotalsElastic[tokenAddr]
             const other = await this.alPine.totals(tokenAddr)
 
             expect(base).to.be.equal(other.base)

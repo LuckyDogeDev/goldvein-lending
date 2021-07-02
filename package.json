@@ -6,7 +6,7 @@
         "coverage": "hardhat coverage"
     },
     "devDependencies": {
-        "@luckyfinance/hardhat-framework": "sushiswap/hardhat-framework#44c25f9f9d861e812399a2d5773449b368f31619"
+        "@luckyfinance/hardhat-framework": "1.0.0"
     },
     "dependencies": {
         "@boringcrypto/boring-solidity": "boringcrypto/BoringSolidity#371a01c11465eb1c881193c60a53c0bf15ee8a19",
