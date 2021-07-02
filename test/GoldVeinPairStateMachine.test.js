@@ -1,5 +1,5 @@
 const { ethers, deployments } = require("hardhat")
-const { getBigNumber, advanceBlock, advanceTime, setMasterContractApproval, createFixture, GoldVeinPair } = require("@sushiswap/hardhat-framework")
+const { getBigNumber, advanceBlock, advanceTime, setMasterContractApproval, createFixture, GoldVeinPair } = require("@luckyfinance/hardhat-framework")
 const GoldVeinPairStateMachine = require("./GoldVeinPairStateMachine.js")
 
 describe("GoldVeinPair", function () {

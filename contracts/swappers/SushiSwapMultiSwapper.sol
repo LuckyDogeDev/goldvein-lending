@@ -6,7 +6,7 @@ pragma experimental ABIEncoderV2;
 import "@boringcrypto/boring-solidity/contracts/libraries/BoringERC20.sol";
 import "@boringcrypto/boring-solidity/contracts/libraries/BoringMath.sol";
 import "../libraries/UniswapV2Library.sol";
-import "@sushiswap/core/contracts/uniswapv2/libraries/TransferHelper.sol";
+import "@luckyfinance/core/contracts/uniswapv2/libraries/TransferHelper.sol";
 import "@luckyfinance/alpine-sdk/contracts/IAlpineV1.sol";
 
 contract LuckySwapMultiSwapper {

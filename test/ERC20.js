@@ -1,6 +1,6 @@
 const { deployments, ethers } = require("hardhat")
 const { expect, assert } = require("chai")
-const { ADDRESS_ZERO, getApprovalDigest, getDomainSeparator, createFixture } = require("@sushiswap/hardhat-framework")
+const { ADDRESS_ZERO, getApprovalDigest, getDomainSeparator, createFixture } = require("@luckyfinance/hardhat-framework")
 const { ecsign } = require("ethereumjs-util")
 
 let cmd, fixture

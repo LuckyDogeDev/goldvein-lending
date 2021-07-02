@@ -1,5 +1,5 @@
 const { expect } = require("chai")
-const { prepare, getBigNumber, createFixture } = require("@sushiswap/hardhat-framework")
+const { prepare, getBigNumber, createFixture } = require("@luckyfinance/hardhat-framework")
 
 let cmd, fixture
 

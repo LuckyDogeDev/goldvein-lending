@@ -1,1 +1,1 @@
-module.exports = require("@sushiswap/hardhat-framework").config.prettier(require("./settings").prettier)
+module.exports = require("@luckyfinance/hardhat-framework").config.prettier(require("./settings").prettier)

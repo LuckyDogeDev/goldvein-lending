@@ -1,6 +1,6 @@
 const { ethers } = require("hardhat")
 const { expect } = require("chai")
-const { getBigNumber, roundBN, advanceTime, createFixture } = require("@sushiswap/hardhat-framework")
+const { getBigNumber, roundBN, advanceTime, createFixture } = require("@luckyfinance/hardhat-framework")
 
 describe("CompositeOracle", function () {
     before(async function () {

@@ -607,12 +607,12 @@
   dependencies:
     "@boringcrypto/boring-solidity" boringcrypto/BoringSolidity#371a01c11465eb1c881193c60a53c0bf15ee8a19
 
-"@sushiswap/core@^1.4.2":
+"@luckyfinance/core@^1.4.2":
   version "1.4.2"
-  resolved "https://registry.yarnpkg.com/@sushiswap/core/-/core-1.4.2.tgz#065a6613f842ab7ac6d12878072b59327bffa296"
+  resolved "https://registry.yarnpkg.com/@luckyfinance/core/-/core-1.4.2.tgz#065a6613f842ab7ac6d12878072b59327bffa296"
   integrity sha512-Khd2i6Bob9uk7dCgVkhUioEoxRP28m6aj25MegAHvnJyxZPVzZDhxSkeL6wdv5MeAp2DwHkYqUq03KDfVTTP4Q==
 
-"@sushiswap/hardhat-framework@sushiswap/hardhat-framework#44c25f9f9d861e812399a2d5773449b368f31619":
+"@luckyfinance/hardhat-framework@luckyfinance/hardhat-framework#44c25f9f9d861e812399a2d5773449b368f31619":
   version "1.1.5"
   resolved "https://codeload.github.com/sushiswap/hardhat-framework/tar.gz/44c25f9f9d861e812399a2d5773449b368f31619"
   dependencies:

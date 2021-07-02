@@ -13,7 +13,7 @@ const {
     ADDRESS_ZERO,
     GoldVeinPair,
     advanceTimeAndBlock,
-} = require("@sushiswap/hardhat-framework")
+} = require("@luckyfinance/hardhat-framework")
 const { defaultAbiCoder } = require("ethers/lib/utils")
 
 let cmd, fixture

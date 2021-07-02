@@ -2,9 +2,9 @@
 
 pragma solidity >=0.5.0;
 
-import '@sushiswap/core/contracts/uniswapv2/interfaces/IUniswapV2Pair.sol';
+import '@luckyfinance/core/contracts/uniswapv2/interfaces/IUniswapV2Pair.sol';
 
-import "@sushiswap/core/contracts/uniswapv2/libraries/SafeMath.sol";
+import "@luckyfinance/core/contracts/uniswapv2/libraries/SafeMath.sol";
 
 library UniswapV2Library {
     using SafeMathUniswap for uint;

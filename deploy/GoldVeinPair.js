@@ -1,4 +1,4 @@
-const { weth, getBigNumber } = require("@sushiswap/hardhat-framework")
+const { weth, getBigNumber } = require("@luckyfinance/hardhat-framework")
 
 module.exports = async function (hre) {
     const factory_abi = [
